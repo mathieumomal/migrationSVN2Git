@@ -5,7 +5,7 @@ Script for migration from svn to git
 Prerequisites :
 Git has to be installed on your system, see https://git-scm.com/download
 
-Options :
+[Options ]
 
 - author
 Description :
