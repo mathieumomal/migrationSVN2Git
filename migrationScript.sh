@@ -1,11 +1,11 @@
 #!/bin/bash    
 #title       : migrationScript.sh
-#description : Script pour migrer un repository svn distant en repository git.
-#author		 : Mathieu MOMAL
+#description : Script migrating svn repository to git repository
+#author      : Mathieu MOMAL
 #date        : 13/09/2017
 #version     : 0.1
-#usage		 : ./migrationScript.sh [author] [clone] [commit]
-#notes       : autoriser ce fichier en execution (chmod +x migrationScript.sh)
+#usage       : ./migrationScript.sh [author] [clone] [commit]
+#notes       : authorize this file in execution (chmod +x migrationScript.sh)
 #==============================================================================
 
 if [[ "$@" =~ "-h" ]]; then
@@ -17,10 +17,10 @@ if [[ "$@" =~ "-h" ]]; then
 fi
 
 #==============================================================================
-# Generation du fichier auteur
-# - Génére un fichier des auteurs
-# il faut venir l'editer manuellement pour faire mapper les adresses emails inexistantes
-# dans l'outils de gestion de conf. svn 
+# Generate a author file 
+#
+# You will have to edit it manually in order to map existing user of svn with their email 
+# Usage : ./migrationScript.sh author svn-repo git-repo-name
 #==============================================================================
 if [[ "$1" =~ "author" ]]; then
 	if [ $# -lt 2 ]
@@ -37,11 +37,13 @@ if [[ "$1" =~ "author" ]]; then
 fi
 
 #==============================================================================
-# Clone svn vers git
-# - Récupere le code svn dans git via la commande 'git svn clone'
-# - Gère les cas de 'layout' (arborescence de repository) non standard
-# note : le format standard est trunk/ branches/ tags/
-# note 2 : les chemins svn doivent ne pas contenir d'espace. 
+# Clone svn to git
+#
+# Clone svn repository in a local git repository 
+# Usage : ./migrationScript.sh clone  author-file trunk branches tags svn-project-url git-repo-name
+# Note 1 : branches and tags can be ignore with ""
+# Note 2 : standard format are trunk/ branches/ tags/
+# Note 3 : svn path must not contain space chars. 
 #==============================================================================
 if [[ "$1" =~ "clone" ]]; then
 	if [ $# -lt 7 ]
@@ -69,8 +71,8 @@ fi
 
 #==============================================================================
 # Rename commit after cloning
-# svn introduisant le texte 'git-svn-id' dans les messages des commits
-# celui-ci est supprimé
+#
+# Delete git-svn-id in commit message.
 #==============================================================================
 if [[ "$1" =~ "commit" ]]; then
 	if [ $# -lt 2 ]
@@ -97,9 +99,9 @@ fi
 
 #==============================================================================
 # Migration Tags
-# les branches prefixés par origin/tags sont transformer en tag :
-# - creation du tag dans git
-# - (suppression de la branche (origin/tags)
+# branches prefixes by origin/tags are transform in tag :
+# - Create a tag in git repository
+# - Delete old branch (origin/tags)
 #==============================================================================
 if [[ "$1" =~ "tags" ]]; then
 
@@ -133,8 +135,9 @@ if [[ "$1" =~ "tags" ]]; then
 fi
 
 #==============================================================================
-# Migration des branches
-# creation de la branche git en local
+# Migration of branches
+#
+# create git branch in local git repository
 #==============================================================================
 if [[ "$1" =~ "branches" ]]; then
 
